@@ -4,34 +4,32 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
-using Vidly.ViewModel;
+
 namespace Vidly.Controllers
 {
 	public class MovieController : Controller
 	{
 		//
 		// GET: /Movie/
+
+        private ApplicationDbContext _context;
+        public MovieController()
+        {
+            _context = new ApplicationDbContext();
+
+
+        }
 		public ViewResult Index()
 		{
-            var movie = new Movie() { Id = "MV1", Name = "Matrix" };
+            var movie = _context.Movies.ToList();
 
-            var customer = new List<Customer> {
-                new Customer {Name= "customer1"},
-                new Customer {Name="customer2"}
-            };
-
-            var viewModel = new RandomMovieViewModel
-            {
-                Movies = movie,
-                Customers = customer
-            };
-
-            return View(viewModel);
-            //return Content("movie controller");
-            //return Content("hello bai sabb");
-			//return HttpNotFound();
-			//return RedirectToAction("Index", "Home", new { page = 1, sortByOrder = "ascending" });
+            return View(movie);
 		}
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
 
         // attribute routing

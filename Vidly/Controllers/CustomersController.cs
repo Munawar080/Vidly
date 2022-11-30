@@ -7,26 +7,42 @@ using Vidly.Models;
 
 namespace Vidly.Controllers
 {
-    public class CustomersController : Controller
-    {
-        //
-        // GET: /Customers/
+	public class CustomersController : Controller
+	{
+		//
+		// GET: /Customers/
 
-        //[Route("Customer/show")]
-        public ViewResult Index()
+		//[Route("Customer/show")]
+		private ApplicationDbContext _context;
+		public CustomersController()
+		{
+			_context = new ApplicationDbContext();
+		}
+
+		
+		public ViewResult Index()
+		{
+			var customer = _context.Customers.ToList();
+
+             return View(customer);
+
+		}
+
+        public ActionResult Details(int id)
         {
-            var customer = GetCustomers();
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return HttpNotFound();
 
             return View(customer);
-            //return Content("hello world");
         }
-        private IEnumerable<Customer> GetCustomers()
-        {
-            return new List<Customer>
-            {
-                new Customer { Id = 1, Name = "John Smith" },
-                new Customer { Id = 2, Name = "Mary Williams" }
-            };
-        }
+		protected override void Dispose(bool disposing)
+		{
+
+			_context.Dispose();
+		}
+
+		
 	}
 }
