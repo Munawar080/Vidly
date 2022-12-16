@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
+using Vidly.ViewModel;
 
 namespace Vidly.Controllers
 {
@@ -36,6 +37,30 @@ namespace Vidly.Controllers
                 return HttpNotFound();
 
             return View(customer);
+        }
+
+        public ActionResult New()
+        {
+            // initialize membership type
+            var MembershipType = _context.MembershipTypes.ToList();
+            var customer = new NewCustomerViewModel
+            {
+                MembershipTypes = MembershipType
+            };
+            return View(customer);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Create(Customer customer){
+            
+            _context.Customers.Add(customer);
+
+            // persist entity framework to return an object
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Customers");
         }
 		protected override void Dispose(bool disposing)
 		{
