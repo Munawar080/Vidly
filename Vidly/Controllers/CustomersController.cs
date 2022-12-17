@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModel;
+using System.Data.Entity;
 
 namespace Vidly.Controllers
 {
@@ -23,45 +24,69 @@ namespace Vidly.Controllers
 		
 		public ViewResult Index()
 		{
-			var customer = _context.Customers.ToList();
 
-             return View(customer);
+			var customer = _context.Customers.Include("MembershipType").ToList();
+			return View(customer);
 
 		}
 
-        public ActionResult Details(int id)
-        {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+		public ActionResult Details(int id)
+		{
+			var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
 
-            if (customer == null)
-                return HttpNotFound();
+			if (customer == null)
+				return HttpNotFound();
 
-            return View(customer);
-        }
+			return View(customer);
+		}
 
-        public ActionResult New()
-        {
-            // initialize membership type
-            var MembershipType = _context.MembershipTypes.ToList();
-            var customer = new NewCustomerViewModel
+		public ActionResult New()
+		{
+			// initialize membership type
+			var MembershipType = _context.MembershipTypes.ToList();
+			var customer = new CustomerFormViewModel
+			{
+				MembershipTypes = MembershipType
+			};
+			return View("CustomerForm", customer);
+		}
+
+		public ActionResult Edit(int Id)
+		{
+			var customer = _context.Customers.SingleOrDefault(c => c.Id == Id);
+
+			if (customer == null) return HttpNotFound();
+
+			var viewModel = new CustomerFormViewModel
+			{
+				Customer = customer,
+				MembershipTypes = _context.MembershipTypes.ToList()
+			};
+
+			return View("CustomerForm", viewModel);
+		}
+
+		[HttpPost]
+		public ActionResult Save(Customer customer)
+		{
+            if (customer.Id == 0) { _context.Customers.Add(customer); }
+            else
             {
-                MembershipTypes = MembershipType
-            };
-            return View(customer);
-        }
+			    var customerInDB = _context.Customers.Single(c => c.Id == customer.Id);
+
+			    customerInDB.Name = customer.Name;
+			    customerInDB.BirthDate = customer.BirthDate;
+			    customerInDB.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+			    customerInDB.MembershipTypeId = customer.MembershipTypeId;
+
+            }
+           
 
 
-
-        [HttpPost]
-        public ActionResult Create(Customer customer){
-            
-            _context.Customers.Add(customer);
-
-            // persist entity framework to return an object
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", "Customers");
-        }
+			_context.SaveChanges();
+			
+			return RedirectToAction("Index", "Customers");
+		}
 		protected override void Dispose(bool disposing)
 		{
 

@@ -1,4 +1,4 @@
-﻿@model Vidly.ViewModel.NewCustomerViewModel
+﻿@model Vidly.ViewModel.CustomerFormViewModel
 
 @{
     ViewBag.Title = "New";
@@ -8,7 +8,7 @@
 <h2>New Customer</h2>
 
 @*purpose of @using is to ensure to put the closing tag at the end of <form> element*@
-@using (@Html.BeginForm("Create", "Customers"))
+@using (@Html.BeginForm("Save", "Customers"))
 {
     <div class="form-group">
 
@@ -19,25 +19,30 @@
         @Html.TextBoxFor(m => m.Customer.Name,
         new { @class = "form-control" })
     </div>
+    
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.BirthDate)
-        @Html.TextBoxFor(m => m.Customer.BirthDate,
+        @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:d MMM yyyy}",
         new { @class = "form-control" })
     </div>
     
-    <div class="checkbox">
-      <label>
-        @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) 
-         Subscribed to Newsletter?
-
-      </label>
-    </div>
+    
      <div class="form-group">
         @Html.LabelFor(m => m.Customer.MembershipTypeId)
         @Html.DropDownListFor(m =>  m.Customer.MembershipTypeId,
         new SelectList(Model.MembershipTypes, "Id", "Name"), 
         "select membership types", new { @class = "form-control"})
     </div>
+    
+    <div class="checkbox">
+      <label>
+        @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) 
+         Subscribed to Newsletter?
+      </label>
+    </div>
+    
+     // hidden field here
+     @Html.HiddenFor(m => m.Customer.Id)
     <button type="submit" class="btn btn-primary">
      Save
     </button>

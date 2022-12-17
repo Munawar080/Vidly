@@ -6,7 +6,7 @@ using Vidly.Models;
 
 namespace Vidly.ViewModel
 {
-    public class NewCustomerViewModel
+    public class CustomerFormViewModel
     {
         // because membership type and customer has a relation so we need to create a class to merge both
 
