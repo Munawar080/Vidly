@@ -36,6 +36,16 @@ namespace Vidly.Controllers
 		[HttpPost]
 		public ActionResult Save(Movie movie)
 		{
+            // 2nd step to validate form state 
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new MovieFormViewModel
+                {
+                    Movie = movie,
+                    Genres = _context.Genres.ToList()
+                };
+                return View("MovieForm", viewModel);
+            }
             if (movie.Id == 0) { _context.Movies.Add(movie); }
             else
             {
@@ -56,6 +66,9 @@ namespace Vidly.Controllers
 			var genres = _context.Genres.ToList();
 			var movies = new MovieFormViewModel
 			{
+                Movie = new Movie{
+                    ReleaseDate = DateTime.MinValue,
+                },
 				Genres = genres
 			};
 			return View("MovieForm", movies);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Vidly.Models;
+using Vidly.Models.CustomValidation;
 
 namespace Vidly.Models
 {
@@ -11,10 +12,11 @@ namespace Vidly.Models
     {
         public int Id{ get; set; }
 
-        [Required]
+        [Required(ErrorMessage="Name is required")]
         [StringLength(255)]
         public string Name{ get; set; }
 
+        
         [Display(Name="Date of Birth")]
         [Min18YearsIFAMember]
         public DateTime? BirthDate { get; set; }

@@ -252,10 +252,11 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomValidation\MovieNameMinAndMaxLength.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
-    <Compile Include="Models\Min18YearsIFAMember.cs" />
+    <Compile Include="Models\CustomValidation\Min18YearsIFAMember.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

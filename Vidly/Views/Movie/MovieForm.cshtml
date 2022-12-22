@@ -13,11 +13,13 @@
         @Html.LabelFor(m => m.Movie.Name)
         @Html.TextBoxFor(m => m.Movie.Name,
             new { @class = "form-control" })
+
+        @Html.ValidationMessageFor(m => m.Movie.Name)
     </div>
     
     <div class="form-group">
         @Html.LabelFor(m => m.Movie.ReleaseDate)
-        @Html.TextBoxFor(m => m.Movie.ReleaseDate,
+        @Html.TextBoxFor(m => m.Movie.ReleaseDate, "{0:d MMM yyy}",
             new { @class = "form-control" })
     </div>
     
@@ -32,6 +34,8 @@
         @Html.LabelFor(m => m.Movie.stock)
         @Html.TextBoxFor(m => m.Movie.stock,
             new { @class = "form-control" })
+
+        @Html.ValidationMessageFor(m => m.Movie.stock)
     </div>
     
     @Html.HiddenFor(m => m.Movie.Id)
@@ -40,3 +44,7 @@
     </button>
 }
 
+@* client side validation *@
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Vidly.Models.CustomValidation;
 namespace Vidly.Models
 {
     public class Movie
@@ -12,6 +13,7 @@ namespace Vidly.Models
         
         [Required]
         [StringLength(255)]
+         //[MovieNameMinAndMaxLength]
         public string Name { get; set; }
         
         
@@ -20,9 +22,9 @@ namespace Vidly.Models
 
         public DateTime? DateAdded{ get; set; }
 
-        [Required]
+        
         [Display(Name = "Genre")]
-        public byte? GenreId { get; set; }
+        public byte GenreId { get; set; }
 
         public Genre Genre { get; set; }
         
