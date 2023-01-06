@@ -59,6 +59,7 @@ namespace Vidly.Controllers.API
         // PUT /api/movie/id
         public void UpdateMovie(MovieDTO moviedto, int id)
         {
+            //validate the sent object from client side
             if (!ModelState.IsValid) throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             var movieInDB = _context.Movies.SingleOrDefault(c => c.Id == id);
