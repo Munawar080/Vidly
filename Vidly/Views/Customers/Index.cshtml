@@ -5,27 +5,22 @@
 }
 
 <h2>customers</h2>
-
-@if (!Model.Any())
-{
-    <p>We don't have any customer yet.</p>
-}
-else
-{
-    <table class="table table-bordered table-hover">
-        <thead>
+<table class="table table-bordered table-hover" id="customer">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var customer in Model)
+        {
             <tr>
-                <th>Customer</th>
-                <th>Membership Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var customer in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(customer.Name, "Edit", "Customers",
+                <td>
+                    @Html.ActionLink(customer.Name, "Edit", "Customers",
                      new { id = customer.Id }, null)
+<<<<<<< ours
                     </td>
                     <td>
                         @customer.MembershipType.Name
@@ -34,4 +29,21 @@ else
             }
         </tbody>
     </table>
+=======
+                </td>
+                <td>
+                    @customer.MembershipType.Name
+                </td>
+                <td>
+                    <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
+                </td>
+            </tr>
+        }*@
+    </tbody>
+</table>
+
+
+
+@section  scripts{
+    <script src="~/Content/scripts/customers.js"></script>
 }
