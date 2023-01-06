@@ -7,7 +7,9 @@ namespace Vidly.Migrations
     {
         public override void Up()
         {
+            
             AlterColumn("dbo.MembershipTypes", "Name", c => c.String(nullable: false));
+
         }
         
         public override void Down()

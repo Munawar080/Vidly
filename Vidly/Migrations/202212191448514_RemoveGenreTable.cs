@@ -7,6 +7,7 @@ namespace Vidly.Migrations
     {
         public override void Up()
         {
+            Sql("ALTER TABLE Movies ADD GenreId int");
             DropColumn("dbo.Movies", "GenreId");
         }
         

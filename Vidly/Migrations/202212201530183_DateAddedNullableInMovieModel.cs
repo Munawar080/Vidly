@@ -7,6 +7,7 @@ namespace Vidly.Migrations
     {
         public override void Up()
         {
+            Sql("ALTER TABLE Movies ADD DateAdded DateTime");
             AlterColumn("dbo.Movies", "DateAdded", c => c.DateTime());
         }
         
