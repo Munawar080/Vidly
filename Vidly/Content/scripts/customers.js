@@ -1,28 +1,30 @@
 ﻿
 $(document).ready(function () {
-
+    
     // render the datatable
-    $("#customer").DataTable({
+    var table = $("#customer").DataTable({
         // call ajax
         ajax: {
             url: "/api/customers",
             dataSrc: ""
         },
+
+        //datatable columns
         columns: [
             {
                 data: "name",
                 render: function(data, type, customers) {
-                    return "<a href='/customers/edit/ " + customer.id + "'>"
+                    return "<a href='/customers/edit/" + customer.id + "'>"
                             + customers.name + "</a>"
                 }
             },
             {
-                data: "name"
+                data: "membershipType.name"
             },
             {
                 data: "id",
                 render: function (data) {
-                    return "<button class='btn link js-delete' data-customer-id= "+ id +">Delete</button>"
+                    return "<button class='btn link js-delete' data-customer-id= "+ data +">Delete</button>"
                 }
             }
 
@@ -32,7 +34,7 @@ $(document).ready(function () {
     });
 
     // delete the targeted customer |---filter---|
-    $("#customer").on("click", " .js-delete", function () {
+    $("#customer").on("click", ".js-delete", function () {
 
         // reference $this in the button scope
         var button = $(this);
@@ -44,8 +46,10 @@ $(document).ready(function () {
                     url: "/api/customers/" + button.attr("data-customer-id"),
                     method: "DELETE",
                     success: function () {
-                        // tracing from child to parent to remove row from table
-                        button.parents("tr").remove();
+                        // tracing from child to parent to remove row from table and
+                        //delete the table row internally when deleting
+                        table.row(button.parents("tr")).remove().draw();
+                        
                     }
                 })
             }

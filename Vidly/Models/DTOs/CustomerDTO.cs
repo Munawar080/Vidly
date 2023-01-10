@@ -20,6 +20,8 @@ namespace Vidly.Models.DTOs
         
         // entity framework recognize this as a convention and treat this prop as a foreign key.
         public byte MembershipTypeId{ get; set; }
+
+        public MembershipTypeDTO MembershipType { get; set; }
     
-    }
+    } 
 }

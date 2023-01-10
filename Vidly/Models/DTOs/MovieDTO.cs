@@ -20,6 +20,8 @@ namespace Vidly.Models.DTOs
         public DateTime? DateAdded { get; set; }
         public byte GenreId { get; set; }
 
+        public GenreDTO Genre { get; set; }
+
         [Required]
         [Range(1, 20)]
         public int stock { get; set; }

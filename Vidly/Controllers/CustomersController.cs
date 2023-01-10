@@ -26,7 +26,11 @@ namespace Vidly.Controllers
 		{
 
             //var customer = _context.Customers.Include("MembershipType").ToList();
-			return View();
+
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View("CustomersList");
+
+			return View("ReadOnlyCustomers");
 
 		}
 
@@ -40,6 +44,7 @@ namespace Vidly.Controllers
 			return View(customer);
 		}
 
+        [Authorize(Roles= RoleName.CanManageMovies)]
 		public ActionResult New()
 		{
 			// initialize membership type
