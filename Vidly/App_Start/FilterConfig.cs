@@ -8,6 +8,9 @@ namespace Vidly
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             // global filter registered here
+
+            // prevent from unauthorize access when writing http manually 
+            filters.Add(new RequireHttpsAttribute());
             filters.Add(new AuthorizeAttribute());
             filters.Add(new HandleErrorAttribute());
         }

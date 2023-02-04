@@ -13,23 +13,30 @@ namespace Vidly.Controllers.API
     public class MovieController : ApiController
     {
         
-        private ApplicationDbContext _context;
+        private ApplicationDbContext     _context;
         public MovieController()
         {
             _context = new ApplicationDbContext();
         }
 
         // GET /api/movie
-        public IEnumerable<MovieDTO> GetMovies()
+        public IEnumerable<MovieDTO> GetMovies(string query = null)
         {
-            return _context.Movies
-                .Include(c => c.Genre)
-                .ToList()
+
+            var movieQuery = _context.Movies
+                .Include(c => c.Genre).Where(m => m.NumberAvailable > 0);
+
+            // filter movies in the server site
+            if (!String.IsNullOrWhiteSpace(query))
+                movieQuery = movieQuery.Where(m => m.Name.Contains(query));
+               
+                
+           return movieQuery.ToList()
                 .Select(Mapper.Map<Movie, MovieDTO>);
         }
 
 
-        // GET /api/movie/id
+        // GET /api/movie/id 
 
         public IHttpActionResult GetMovie(int id)
         {
